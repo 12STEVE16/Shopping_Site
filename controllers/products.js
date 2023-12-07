@@ -1,7 +1,7 @@
 import * as Product  from "../models/products.js";
 
 const getAddProduct = (req, res, next) => {
-    res.render('add-product', {
+    res.render('admin/add-product', {
       pageTitle: 'Add Product',
       path: '/admin/add-product',
       formsCSS: true,
@@ -17,7 +17,7 @@ const postAddProduct=(req,res,next)=>{
 const getProducts=(req,res,next)=>{
     const allProducts =Product.Product.fetchAll();
     
-    res.render('shop', {
+    res.render('shop/product-list', {
       prods: allProducts,
       pageTitle: 'Shop',
       path: '/',
