@@ -1,7 +1,7 @@
 
 import express from 'express';
 import bodyParser from 'body-parser';
-import * as productsController from '../controllers/products.js';
+import * as shopController from '../controllers/shop.js';
 const router = express();
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -9,6 +9,10 @@ router.set('view engine', 'ejs');
 router.set('views', './views');
 
 
-router.get("/",productsController.getProducts);
+router.get("/",shopController.getIndex);
+router.get("/products",shopController.getProducts);
+router.get("/cart",shopController.getCart);
+router.get("/orders",shopController.getOrders);
+router.get("/checkout",shopController.getcheckout);
 
 export { router };

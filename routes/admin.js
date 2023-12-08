@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import * as productsController from '../controllers/products.js';
+import * as adminController from '../controllers/admin.js';
 
 const router = express();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -11,8 +11,12 @@ router.set('views', './views');
 // Admin routes
 
 
-router.get('/add-product', productsController.getAddProduct);
-router.post('/add-product',productsController.postAddProduct);
+router.get('/add-product', adminController.getAddProduct);
+
+router.get('/products', adminController.getProducts);
+
+
+router.post('/add-product',adminController.postAddProduct);
 
 
 
