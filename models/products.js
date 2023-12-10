@@ -1,29 +1,12 @@
-// const products = [];
-// class Product {
-//     constructor(title, imageUrl, description, price) {
-//         this.title = title;
-//         this.imageUrl = imageUrl;
-//         this.description = description;
-//         this.price = price;
-//     }
+// models/products.js
 
-//     save() {
-//         products.push(this);
-//     }
-
-//     static fetchAll() {
-//         return products;
-//     }
-// }
-  
-//   export {Product} ;
-  
 import fs from 'fs';
 
 const productsFilePath = 'products.json';
 
 class Product {
-    constructor(title, imageUrl, description, price) {
+    constructor(title, imageUrl, description, price, id = null) {
+        this.id = id || Math.random().toString();
         this.title = title;
         this.imageUrl = imageUrl;
         this.description = description;
@@ -31,28 +14,48 @@ class Product {
     }
 
     save() {
-        // Fetch existing products from the file
         const existingProducts = Product.fetchAll();
+        const productIndex = existingProducts.findIndex(prod => prod.id === this.id);
 
-        // Add the current product to the existing products array
-        existingProducts.push(this);
+        if (productIndex !== -1) {
+            existingProducts[productIndex] = this;
+        } else {
+            existingProducts.push(this);
+        }
 
-        // Write the updated array back to the file
         fs.writeFileSync(productsFilePath, JSON.stringify(existingProducts));
+    }
+
+    static update(updatedProduct) {
+        const products = Product.fetchAll();
+        const productIndex = products.findIndex(prod => prod.id === updatedProduct.id);
+
+        if (productIndex !== -1) {
+            products[productIndex] = updatedProduct;
+            fs.writeFileSync(productsFilePath, JSON.stringify(products));
+        }
     }
 
     static fetchAll() {
         try {
-            // Read products from the file
             const productsData = fs.readFileSync(productsFilePath);
-            // Parse JSON data
             const products = JSON.parse(productsData);
             return products;
         } catch (error) {
-            // If there's an error reading the file or parsing JSON, return an empty array
             return [];
         }
     }
-}
 
+    static findById(id) {
+        const products = Product.fetchAll();
+        const product = products.find(prod => prod.id === id);
+        return product ? new Product(product.title, product.imageUrl, product.description, product.price, product.id) : null;
+    }
+    
+    static deleteById(id) {
+        let products = Product.fetchAll();
+        const updatedProducts = products.filter(prod => prod.id !== id);
+        fs.writeFileSync(productsFilePath, JSON.stringify(updatedProducts));
+    }
+}
 export { Product };
