@@ -9,12 +9,12 @@ router.set('view engine', 'ejs');
 router.set('views', './views');
 
 
-router.get("/",shopController.getIndex);
-router.get("/products",shopController.getProducts);
-router.get("/cart",shopController.getCart);
-router.post('/cart',shopController.postCart);
-router.post('/cart-delete-item', shopController.postCartDeleteItem);
-router.get("/orders",shopController.getOrders);
-router.get("/checkout",shopController.getcheckout);
-router.get("/products/:productId",shopController.getProduct);
+router.get('/', shopController.getIndex);
+router.get('/products', shopController.getProducts);
+router.get('/products/:productId', shopController.getProduct);
+router.get('/cart', shopController.getCart);
+router.post('/cart', shopController.postCart);
+router.post('/cart-delete-item', shopController.postCartDeleteProduct);
+router.post('/create-order', shopController.postOrder);
+router.get('/orders', shopController.getOrders);
 export { router };
